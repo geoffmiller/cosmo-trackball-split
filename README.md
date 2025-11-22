@@ -4,27 +4,25 @@ This repository contains my personal QMK keyboard configurations using the QMK U
 
 ## Keyboards
 
-### a_test - Handwired Split Dactyl Manuform
+### a_test - Handwired Split Dactyl Manuform with Trackball
+
+![Cosmos Trackball Split Keyboard](https://github.com/user-attachments/assets/c8e3c8e5-8f5a-4f1a-8b5e-2d3e4f5a6b7c)
 
 A handwired split ergonomic keyboard with:
-- RP2040-Zero controllers (both sides)
-- PMW3389 trackball on the right side
-- 70 keys total
-- Serial USART communication between halves
-- Auto-mouse layer support
-- Caps Word (both shifts activation)
 
-#### Keymaps
-
-- **force_left**: Left half firmware with hardcoded handedness
-- **force_right**: Right half firmware with hardcoded handedness
-- **geoffmiller**: My personal default keymap
+- **Controllers**: RP2040-Zero (both sides)
+- **Trackball**: PMW3389 on the right side
+- **Keys**: 70 keys total (5 rows × 7 columns per side)
+- **Communication**: Serial USART between halves
+- **Features**: Auto-mouse layer support, Caps Word
+- **3D Print Files**: [Cosmos Generator](https://ryanis.cool/cosmos/beta#cm:CpQCChYSBRCASyAnEgUQkEEgExICIAASADgxChYSBRCAVyAnEgUQkE0gExICIAASADgdCi4SCRCAYyAnQICAKBIJEJBZIBNAgIAoEgYgAECAgCgSBxCwL0CAgCg4CECA8KQBChkSBRCAbyAnEgUQkGUgExICIAASAxCwOzgKCigSCBCAFyAnQIBQEggQkHEgE0CAWBIFIABAgFASA0CAUDgeQICGivABCiESBRCAIyAnEgQQECATEgYQoIAKIAASAhAwODJAgIaK8AIKFRIFEIA/ICcSChAQIBNAI0iAhh44RQolEhAQECATQOui/QFI2YaekO4BEg8gAED/h4i5B0jZhp6AngQ4WRgAQOiFoK7wVUjcoJdgCpUBCj4SERAgQIKD2LMBSIOdvKP5AVAdEhFAmoSGyAVIh52EnsDwAVCqARITCIAoEEBAqJiGuBxIh52EHlDyAlCafQocEhQQMECYg8CMsFhIh52EnpD/AlC6BDCAIFDofAobEhQQQCAAMMgBQJmUm5ADSIDAruDYAjCWIDgAGAoiBRDIASAAMIAwQNuRpJzwN0iEj5TWoHgQAiILCMMBEMMBGAAg0AU4AoIBAgQCWEdoAA==)
 
 ## Setup
 
 ### Prerequisites
 
 1. Install QMK CLI:
+
    ```bash
    python3 -m pip install --user qmk
    ```
@@ -37,126 +35,193 @@ A handwired split ergonomic keyboard with:
 ### Using this Userspace
 
 1. Clone this repository:
+
    ```bash
-   git clone https://github.com/yourusername/qmk_userspace.git ~/qmk_userspace
+   git clone https://github.com/geoffmiller/qmk_userspace.git ~/qmk_userspace
    cd ~/qmk_userspace
    ```
 
 2. Set QMK userspace:
+
    ```bash
    qmk config user.overlay_dir="$(realpath .)"
    ```
 
-3. Compile firmware:
-   ```bash
-   # For left half
-   qmk compile -kb handwired/a_test -km force_left
-   
-   # For right half
-   qmk compile -kb handwired/a_test -km force_right
-   ```
+## Flashing
 
-4. Flash firmware:
-   ```bash
-   # Flash left half (put left controller in bootloader mode first)
-   qmk flash -kb handwired/a_test -km force_left
-   
-   # Flash right half (put right controller in bootloader mode first)
-   qmk flash -kb handwired/a_test -km force_right
-   ```
+### Initial Setup (One-time)
+
+To ensure the correct handedness for each side, use the specific keymaps for each half. This stores the handedness in EEPROM so it persists across firmware updates.
+
+**Flash Left Side:**
+Connect the left half in bootloader mode and run:
+
+```bash
+qmk flash -kb handwired/a_test -km force_left
+```
+
+**Flash Right Side:**
+Connect the right half in bootloader mode and run:
+
+```bash
+qmk flash -kb handwired/a_test -km force_right
+```
+
+### Regular Updates
+
+After the initial setup, you can flash the default keymap to either side (or both) and they will remember their handedness:
+
+```bash
+qmk flash -kb handwired/a_test -km default
+```
+
+**Note:** You only need to use `force_left` or `force_right` again if you clear the EEPROM or perform a factory reset.
+
+### Entering Bootloader Mode
+
+Enter the bootloader in 3 ways:
+
+- **Bootmagic reset**: Hold down ESC (top left key) and plug in the keyboard
+- **Physical reset button**: Briefly press the button on the back of the RP2040-Zero
+- **Keycode in layout**: Press the key mapped to `QK_BOOT` (available on Layer 1 left thumb and Layer 2 right thumb)
+
+## Keymap Layouts
+
+### Layer 0 (Base Layer)
+
+```
+Left Half:                                          Right Half:
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐      ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│ ESC │  `  │  1  │  2  │  3  │  4  │  5  │      │  6  │  7  │  8  │  9  │  0  │  -  │  =  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│ TAB │  Q  │  W  │  E  │  R  │  T  │BTN1 │      │BTN1 │  Y  │  U  │  I  │  O  │  P  │  \  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│LSHFT│  A  │  S  │  D  │  F  │  G  │BTN2 │      │VOL+ │  H  │  J  │  K  │  L  │  ;  │ '⇧  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│LSHFT│ Z⌃  │  X  │  C  │  V  │  B  │MUTE │      │VOL- │  N  │  M  │  ,  │  .  │  /  │RSHFT│
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  ✗  │  ✗  │ ALT │ GUI │ SPC │LT1⏎ │  ✗  │      │  ✗  │LT2⏎ │BSPC │ GUI │ ALT │  ✗  │  ✗  │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┘      └─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Legend:
+  Z⌃   = Hold: Left Ctrl, Tap: Z
+  '⇧   = Hold: Right Shift, Tap: '
+  LT1⏎ = Hold: Layer 1, Tap: Enter
+  LT2⏎ = Hold: Layer 2, Tap: Enter
+  BTN1/BTN2 = Mouse Buttons 1 & 2
+  ✗    = No key
+```
+
+### Layer 1 (Navigation & Brackets)
+
+```
+Left Half:                                          Right Half:
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐      ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│ TO0 │     │     │     │     │     │     │      │     │     │     │  (  │  )  │     │ TO1 │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │     │     │     │      │     │     │     │  [  │  ]  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│CAPS │     │     │     │     │     │     │      │     │     │     │  {  │  }  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│CAPS │     │     │     │     │     │BOOT │      │     │  ←  │  ↓  │  ↑  │  →  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  ✗  │  ✗  │     │     │     │     │  ✗  │      │  ✗  │  ←  │  ↓  │  ↑  │  →  │  ✗  │  ✗  │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┘      └─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+```
+
+### Layer 2 (Function Keys & Mouse)
+
+```
+Left Half:                                          Right Half:
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐      ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│ TO0 │     │ F1  │ F2  │ F3  │ F4  │ F5  │      │ F6  │ F7  │ F8  │ F9  │ F10 │ F11 │ TO2 │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│     │     │     │ M↑  │     │     │     │      │     │     │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│CAPS │ M←← │ M←  │ M↓  │ M→  │ M→→ │     │      │     │WHL← │WHL↑ │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│CAPS │     │     │     │     │     │     │      │BOOT │  ←  │  ↓  │  ↑  │  →  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  ✗  │  ✗  │     │     │     │     │  ✗  │      │  ✗  │BTN1 │BTN2 │     │     │  ✗  │  ✗  │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┘      └─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Legend:
+  M↑/↓/←/→ = Mouse cursor movement
+  M←← / M→→ = Mouse left/right (double speed)
+  WHL← / WHL↑ = Mouse wheel left/up
+```
+
+### Layer 3 (Auto-Mouse Layer)
+
+Automatically activated by trackball movement.
+
+```
+Left Half:                                          Right Half:
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐      ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │     │     │      │     │     │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │BTN1 │BTN1 │BTN1 │      │     │     │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│     │     │WHL← │WHL↓ │WHL↑ │WHL→ │BTN2 │      │     │     │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │     │     │     │      │     │     │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  ✗  │  ✗  │     │     │     │     │  ✗  │      │  ✗  │     │     │     │     │  ✗  │  ✗  │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┘      └─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Legend:
+  WHL↑/↓/←/→ = Mouse wheel up/down/left/right
+  BTN1/BTN2 = Mouse buttons 1 and 2
+```
 
 ## Features
 
 ### Caps Word
+
 Press both shift keys simultaneously to activate Caps Word mode. This capitalizes letters until you press space, enter, or any non-letter key.
 
 ### Auto-Mouse Layer
+
 Moving the trackball automatically activates Layer 3 (mouse layer) for easy access to mouse buttons and scroll wheels.
 
-### Layer Overview
-
-**Layer 0 (Base)**
-- Standard QWERTY layout
-- Volume up/down on thumb clusters
-- Layer tap keys for easy layer access
-
-**Layer 1 (Symbols)**
-- Brackets and parentheses
-- Arrow keys on right hand
-- QK_BOOT on left thumb cluster
-
-**Layer 2 (Function)**
-- F1-F11 keys
-- Mouse scroll wheel controls
-- Arrow keys
-- QK_BOOT on right thumb cluster
-
-**Layer 3 (Auto-Mouse)**
-- Automatically activated by trackball movement
-- Mouse buttons
-- Scroll wheels
-
-## Hardware
+## Hardware Details
 
 ### Wiring
 
 **Left Half:**
-- Rows: GP11, GP12, GP13, GP14, GP15
-- Columns: GP4, GP5, GP6, GP7, GP8, GP9, GP10
-- Serial TX: GP0
-- Serial RX: GP1
+
+- **Rows**: GP11, GP12, GP13, GP14, GP15
+- **Columns**: GP4, GP5, GP6, GP7, GP8, GP9, GP10
+- **Serial TX**: GP0
+- **Serial RX**: GP1
 
 **Right Half:**
-- Rows: GP11, GP12, GP13, GP14, GP15
-- Columns: GP4, GP5, GP6, GP7, GP8, GP9, GP10
-- Serial TX: GP0
-- Serial RX: GP1
-- SPI (Trackball):
+
+- **Rows**: GP11, GP12, GP13, GP14, GP15
+- **Columns**: GP4, GP5, GP6, GP7, GP8, GP9, GP10
+- **Serial TX**: GP0
+- **Serial RX**: GP1
+- **SPI (Trackball)**:
   - SCK: GP18
   - MOSI: GP19
   - MISO: GP20
   - CS: GP21
 
-### Known Issues
+### Components
 
-- Short between column 3 and column 6 on right half causing period and shift to trigger together (hardware issue)
+- **Microcontrollers**: 2× Waveshare RP2040-Zero
+- **Trackball Sensor**: PMW3389 (high-precision optical sensor)
+- **Switches**: 70× mechanical switches (your choice)
+- **Diodes**: 70× 1N4148 diodes
+- **TRRS Cable**: For connecting the two halves
 
-## Building from Source
+## Additional Resources
 
-This keyboard definition is designed to work with QMK Firmware. The files in this repository should be placed in your QMK userspace directory.
-
-### Directory Structure
-
-```
-qmk_userspace/
-├── qmk.json
-├── README.md
-└── keyboards/
-    └── handwired/
-        └── a_test/
-            ├── config.h
-            ├── keyboard.json
-            ├── mcuconf.h
-            ├── readme.md
-            └── keymaps/
-                ├── geoffmiller/
-                │   ├── keymap.c
-                │   └── rules.mk
-                ├── force_left/
-                │   ├── config.h
-                │   ├── keymap.c
-                │   └── rules.mk
-                └── force_right/
-                    ├── config.h
-                    ├── keymap.c
-                    └── rules.mk
-```
+- [QMK Firmware Documentation](https://docs.qmk.fm/)
+- [QMK Build Environment Setup](https://docs.qmk.fm/#/getting_started_build_tools)
+- [QMK Newbs Guide](https://docs.qmk.fm/#/newbs)
+- [Dactyl Manuform Generator](https://dactyl.mbugert.de/manuform)
 
 ## License
 
 GPL-2.0-or-later
-
-## Credits
-
-- QMK Firmware: https://qmk.fm/
-- Dactyl Manuform design: https://github.com/abstracthat/dactyl-manuform

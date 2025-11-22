@@ -1,12 +1,9 @@
 # a_test
 
-![a_test](https://i.imgur.com/F0E1JCQh.jpg)
-
-This is a handwired dactyl manufor utalising an RP2040-zero
+This is a handwired dactyly/cosmo w/trackball using RP2040-zeros
 
 - Keyboard Maintainer: geoff
-- Hardware Supported: Waveshare RP2040-Zero
-- Hardware Availability: https://www.waveshare.com/wiki/RP2040-Zero
+- Hardware Supported: RP2040-Zero
 - 3D Print File Source: https://dactyl.mbugert.de/manuform
 
 Make example for this keyboard (after setting up your build environment):
