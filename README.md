@@ -38,7 +38,7 @@ A handwired split ergonomic keyboard with:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/geoffmiller/qmk_userspace.git ~/qmk_userspace
+   git clone https://github.com/geoffmiller/cosmo-trackball-split.git ~/qmk_userspace
    cd ~/qmk_userspace
    ```
 
@@ -139,7 +139,7 @@ Left Half:                                          Right Half:
 ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
 │     │     │     │ M↑  │     │     │     │      │     │     │     │     │     │     │     │
 ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-│CAPS │ M←← │ M←  │ M↓  │ M→  │ M→→ │     │      │     │WHL← │WHL↑ │     │     │     │     │
+│CAPS │ M←← │ M←  │ M↓  │ M→  │ M→→ │     │      │     │WHL↓ │WHL↑ │     │     │     │     │
 ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
 │CAPS │     │     │     │     │     │     │      │BOOT │  ←  │  ↓  │  ↑  │  →  │     │     │
 ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤      ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤
@@ -149,7 +149,7 @@ Left Half:                                          Right Half:
 Legend:
   M↑/↓/←/→ = Mouse cursor movement
   M←← / M→→ = Mouse left/right (double speed)
-  WHL← / WHL↑ = Mouse wheel left/up
+  WHL↓ / WHL↑ = Mouse wheel down/up
 ```
 
 ### Layer 3 (Auto-Mouse Layer)
@@ -221,7 +221,7 @@ Moving the trackball automatically activates Layer 3 (mouse layer) for easy acce
 - [QMK Firmware Documentation](https://docs.qmk.fm/)
 - [QMK Build Environment Setup](https://docs.qmk.fm/#/getting_started_build_tools)
 - [QMK Newbs Guide](https://docs.qmk.fm/#/newbs)
-- [Dactyl Manuform Generator](https://dactyl.mbugert.de/manuform)
+- [Ryan is cool's Cosmos Generator](https://ryanis.cool/cosmos/beta)
 
 ## License
 
