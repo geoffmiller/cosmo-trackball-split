@@ -6,7 +6,7 @@ This repository contains my personal QMK keyboard configurations using the QMK U
 
 ### a_test - Handwired Split Dactyl Manuform with Trackball
 
-![Cosmos Trackball Split Keyboard](https://github.com/user-attachments/assets/c8e3c8e5-8f5a-4f1a-8b5e-2d3e4f5a6b7c)
+![Cosmos Trackball Split Keyboard](./a_test_render.png)
 
 A handwired split ergonomic keyboard with:
 
